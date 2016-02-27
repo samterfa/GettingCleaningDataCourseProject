@@ -48,17 +48,14 @@ run_analysis <- function(){
      
      testAndTrainData <- merge(testData,trainData,all=TRUE) ## Creates a single data frame with all testing and training data.
      
+     ## Creates a second, independent tidy data set with the average of each variable for each subject and activity.
      
+     groupedSubjectActivityData <- aggregate(testAndTrainData[, 1:66], by = list(testAndTrainData[, "Activity"],testAndTrainData[, "Subject"]), FUN = mean) ## Averages all measurements by subject and activity.
+     groupedSubjectActivityData <- rename(groupedSubjectActivityData, Activity = Group.1) ## Renames column for subjects to be more descriptive and eventually match the Activity averages data set for merging.
+     groupedSubjectActivityData <- rename(groupedSubjectActivityData, Subject = Group.2) ## Renames column for subjects to be more descriptive and eventually match the Activity averages data set for merging.
+     groupedSubjectActivityData <- groupedSubjectActivityData[,append(c("Subject","Activity"),names(groupedSubjectActivityData[,!names(groupedSubjectActivityData)=="Subject" & !names(groupedSubjectActivityData)=="Activity"]))]  ## Swaps the subject and activity columns.
+     names(groupedSubjectActivityData) <- append(c("Subject", "Activity"), paste(names(groupedSubjectActivityData[,!names(groupedSubjectActivityData)=="Subject" & !names(groupedSubjectActivityData)=="Activity"]), "-Avgs", sep="")) ## Adds descriptor "-Avgs" to each of the data columns.
      
-     ## Creates a second, independent tidy data set with the average of each variable for each activity and each subject.
-     
-     subjectData <- aggregate(testAndTrainData[, 1:66], by = list(testAndTrainData[, "Subject"]), FUN = mean) ## Averages all measurements by subject.
-     subjectData <- rename(subjectData, ActivityAndSubject = Group.1) ## Renames column for subjects to be more descriptive and eventually match the Activity averages data set for merging.
-     
-     activityData <- aggregate(testAndTrainData[, 1:66], by = list(testAndTrainData[, "Activity"]), FUN = mean) ## Averages all measurements by Activity.
-     activityData <- rename(activityData, ActivityAndSubject = Group.1) ## Renames column for activities to be more descriptive and match the Subject averages data set for mergin.
-     
-     activityAndSubjectData <- rbind(activityData, subjectData) ## Binds the Subject and Activity averages data sets together with Activity on the top and Subject data beneath.
-     
-     return(list(testAndTrainData,activityAndSubjectData)) ## Returns both the full data set created above as well as the Activity and Subject Means data set as a list.
+     return(list(testAndTrainData, groupedSubjectActivityData)) ## Returns both the full data set created above as well as the Activity and Subject Means data set as a list.
+
 }

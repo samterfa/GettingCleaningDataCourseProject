@@ -27,10 +27,4 @@ SEE README.TXT INSIDE THE UCI HAR Dataset FOLDER FOR EXPLANATION OF MEASUREMENTS
 
 * testAndTrainData - a data frame which contains only the x_test and x_train data corresponding to mean or standard deviation data merged together. This is one of the two data frames returned by the script. Columns 67 and 68 of this data frame contain the subject number corresponding to the measurements contained in each row of the data frame as well as the activity description being performed for each test.
 
-* subjectData - a data frame containing the average measurement for each type of mean or standard deviation measurement returned in testAndTrainData orgainzed by subject number (avg for subject 1, subject 2, etc...)
-
-
-* activityData - a data frame containing the average measurement for each type of mean or standard deviation measurement returned in testAndTrainData orgainzed by activity description (avg for Walking, Sitting, etc...)
-
-
-* activityAndSubjectData - a data frame comprised of the activityData followed by the subjectData beneath. Row one of the data frame is named "ActivityAndSubject" and contains each type of activity description followed by each subject number.
+* groupedSubjectActivityData - a data frame comprised of the activityData followed by the subjectData beneath. Column one of the data frame is named "Subject" and contains each subject who participated. Column 2 is named "Activity" and contains all the activities each of the 30 subjects did. The rest of the columns correspond the the averages of the mean and standard deviation data organized by subject and activity.
